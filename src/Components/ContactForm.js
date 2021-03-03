@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ContactForm = () => {
+const ContactForm = ({addOrEdit}) => {
   const initialFIeldValues = {
     fullName: '',
     mobile: '',
@@ -10,8 +10,21 @@ const ContactForm = () => {
 
   const [values, setValues] = useState(initialFIeldValues);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value
+    });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    addOrEdit(values);
+  };
+
   return (
-    <form autoComplete="off">
+    <form autoComplete="off" onSubmit={handleFormSubmit}>
       <div className="form-group input-group">
         <div className="input-group-prepend">
           <div className="input-group-text">
@@ -23,6 +36,7 @@ const ContactForm = () => {
           placeholder="Full Name"
           name="fullName"
           value={values.fullName}
+          onChange={handleInputChange}
         />
       </div>
 
@@ -38,6 +52,7 @@ const ContactForm = () => {
             placeholder="Mobile"
             name="mobile"
             value={values.mobile}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -52,9 +67,25 @@ const ContactForm = () => {
             placeholder="Email"
             name="email"
             value={values.email}
+            onChange={handleInputChange}
           />
         </div>
-
+      </div>
+      <div className="form-group">
+        <textarea
+          className="form-control"
+          placeholder="Address"
+          name="address"
+          value={values.address}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="form-group">
+        <input
+          type="submit"
+          value="Save"
+          className="btn btn-primary btn-block"
+        />
       </div>
     </form>
   );
