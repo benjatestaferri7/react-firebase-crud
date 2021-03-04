@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ContactForm = ({addOrEdit}) => {
+const ContactForm = ({ addOrEdit, currentId, contactObj }) => {
   const initialFIeldValues = {
     fullName: '',
     mobile: '',
@@ -9,6 +9,18 @@ const ContactForm = ({addOrEdit}) => {
   };
 
   const [values, setValues] = useState(initialFIeldValues);
+
+  useEffect(() => {
+    if (currentId === '') {
+      setValues({
+        ...initialFIeldValues
+      });
+    } else {
+      setValues({
+        ...contactObj[currentId]
+      });
+    }
+  }, [currentId, contactObj]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -83,7 +95,7 @@ const ContactForm = ({addOrEdit}) => {
       <div className="form-group">
         <input
           type="submit"
-          value="Save"
+          value={currentId === '' ? 'Save' : 'Update'}
           className="btn btn-primary btn-block"
         />
       </div>
